@@ -1,9 +1,10 @@
 import User from "../model/users.js";
-import bcrypt from "bcryptjs";
-
+import bcrypt from "bcrypt";
 
 export const register = async (req,res) => {
     const {username, email , password} = req.body; 
+
+    console.log(username , email , password)
 
     try {
         if(!username || !email || !password) {
@@ -40,7 +41,7 @@ export const login = async (req,res) => {
 
         let user = await User.findOne({email});
 
-        if(bcrypt.compare(password, user.password)) {
+        if(!bcrypt.compare(password, user.password)) {
             return res.status(400).json({error : "Invalid credentials"});
         }
 
